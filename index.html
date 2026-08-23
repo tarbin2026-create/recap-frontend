@@ -3,321 +3,175 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recap with Tarbin - Full Pro Studio</title>
+  <title>Recap Studio Pro</title>
   <style>
-    :root {
-      --bg-color: #0b0f19;
-      --card-bg: #151c2c;
-      --accent: #0284c7;
-      --accent-hover: #0369a1;
-      --text-main: #f8fafc;
-      --text-sub: #94a3b8;
-      --border-color: #1e293b;
-    }
+    :root { --bg: #0b0f19; --card: #151c2c; --accent: #0284c7; --text: #f8fafc; --border: #1e293b; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-    }
-    .studio-container {
-      width: 100%;
-      max-width: 680px;
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 28px;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-    }
-    .header {
-      text-align: center;
-      margin-bottom: 24px;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 16px;
-    }
-    .header h1 { font-size: 24px; color: #38bdf8; }
-    .header p { font-size: 13px; color: var(--text-sub); margin-top: 4px; }
-    .section-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #38bdf8;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-    }
-    .form-group { margin-bottom: 20px; }
-    label { display: block; font-size: 14px; margin-bottom: 8px; color: var(--text-main); }
-    input[type="file"], select, input[type="range"] {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      background: #0f172a;
-      border: 1px solid var(--border-color);
-      color: #fff;
-      font-size: 14px;
-      outline: none;
-    }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .preview-box {
-      width: 100%;
-      max-height: 250px;
-      background: #000;
-      border-radius: 8px;
-      margin-top: 10px;
-      display: none;
-    }
-    .checkbox-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    .checkbox-group input { width: auto; }
-    .sub-panel {
-      background: #0f172a;
-      padding: 12px;
-      border-radius: 8px;
-      margin-top: 10px;
-      border: 1px solid var(--border-color);
-      display: none;
-    }
-    button {
-      width: 100%;
-      padding: 14px;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    button:hover { background: var(--accent-hover); }
-    #status { margin-top: 16px; font-size: 14px; text-align: center; color: #38bdf8; }
-    .output-section { margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 20px; }
+    body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; }
+    .studio { width: 100%; max-width: 680px; background: var(--card); border-radius: 16px; padding: 24px; border: 1px solid var(--border); }
+    .header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+    .header h1 { font-size: 22px; color: #38bdf8; }
+    .section-title { font-size: 13px; font-weight: 600; color: #38bdf8; margin-bottom: 8px; text-transform: uppercase; }
+    .form-group { margin-bottom: 16px; }
+    label { display: block; font-size: 13px; margin-bottom: 6px; }
+    input[type="file"], select, input[type="range"] { width: 100%; padding: 10px; border-radius: 8px; background: #0f172a; border: 1px solid var(--border); color: #fff; font-size: 14px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .preview-box { width: 100%; max-height: 250px; background: #000; border-radius: 8px; margin-top: 10px; display: none; }
+    .panel { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid var(--border); margin-top: 10px; }
+    button { width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    #status { margin-top: 12px; font-size: 14px; text-align: center; color: #38bdf8; }
+    .editor-section { margin-top: 24px; border-top: 2px dashed var(--accent); padding-top: 16px; display: none; }
   </style>
 </head>
 <body>
 
-<div class="studio-container">
+<div class="studio">
   <div class="header">
-    <h1>Recap with Tarbin Studio Pro</h1>
-    <p>AI Video Recap & Watermark / Subtitle Blur Studio Engine</p>
+    <h1>Recap with Tarbin Studio</h1>
+    <p>AI Video Recap & Post-Editor Engine</p>
   </div>
 
-  <!-- 1. Input Video -->
+  <!-- STEP 1: RECAP CREATION -->
   <div class="form-group">
-    <div class="section-title">၁။ Video File Source</div>
-    <label>မူရင်း ဗီဒီယိုဖိုင် တင်ပါ -</label>
+    <div class="section-title">STEP 1: RECAP ဖန်တီးမည်</div>
+    <label>ဗီဒီယိုဖိုင် တင်ပါ -</label>
     <input type="file" id="videoInput" accept="video/*" onchange="previewInputVideo(event)">
     <video id="inputPreview" class="preview-box" controls></video>
   </div>
 
-  <!-- 2. Text Blur Controls -->
-  <div class="form-group">
-    <div class="section-title">၂။ Video Subtitle/Text Blur Control</div>
-    <label class="checkbox-group">
-      <input type="checkbox" id="enableBlur" onchange="toggleBlurOptions()">
-      ဗီဒီယိုထဲမှ စာများ/စာတန်းများကို ဝါးပစ်မည် (Blur Text)
-    </label>
-    <div id="blurOptions" class="sub-panel">
-      <div class="grid-2">
-        <div>
-          <label>ဝါးမည့်နေရာ (Blur Location) -</label>
-          <select id="blurPosition">
-            <option value="bottom" selected>အောက်ခြေ (Bottom Subtitles)</option>
-            <option value="top">အပေါ်ပိုင်း (Top Headers)</option>
-            <option value="center">အလယ်ပိုင်း (Center)</option>
-          </select>
-        </div>
-        <div>
-          <label>ဝါးသည့် အရွယ်အစား (Blur Level) -</label>
-          <select id="blurSize">
-            <option value="small">အနည်းငယ် (Light)</option>
-            <option value="medium" selected>အသင့်အတင့် (Medium)</option>
-            <option value="large">အပြည့်အဝ (Strong)</option>
-          </select>
-        </div>
-      </div>
+  <div class="form-group grid-2">
+    <div>
+      <label>Recap ကြာချိန် -</label>
+      <select id="duration">
+        <option value="60">၁ မိနစ် (Shorts)</option>
+        <option value="180" selected>၃ မိနစ် (Standard)</option>
+      </select>
     </div>
-  </div>
-
-  <!-- 3. Logo Watermark Controls -->
-  <div class="form-group">
-    <div class="section-title">၃။ Brand Logo Overlay</div>
-    <label>သင့် Logo ပုံထည့်သွင်းပါ (PNG/JPG) -</label>
-    <input type="file" id="logoInput" accept="image/*">
-    <div class="grid-2" style="margin-top: 10px;">
-      <div>
-        <label>Logo တည်နေရာ -</label>
-        <select id="logoPosition">
-          <option value="top-right" selected>အပေါ် ညာဘက်</option>
-          <option value="top-left">အပေါ် ဘယ်ဘက်</option>
-          <option value="bottom-right">အောက် ညာဘက်</option>
-          <option value="bottom-left">အောက် ဘယ်ဘက်</option>
-        </select>
-      </div>
-      <div>
-        <label>Logo အရွယ်အစား (px): <span id="logoSizeVal">80</span>px</label>
-        <input type="range" id="logoSize" min="40" max="200" value="80" oninput="document.getElementById('logoSizeVal').innerText = this.value">
-      </div>
-    </div>
-  </div>
-
-  <!-- 4. Timing & Voice -->
-  <div class="form-group">
-    <div class="section-title">၄။ Voice Character & Audio Options</div>
-    <div class="grid-2">
-      <div>
-        <label>Recap ကြာချိန် -</label>
-        <select id="duration">
-          <option value="60">၁ မိနစ် (Shorts/Reels)</option>
-          <option value="180" selected>၃ မိနစ် (Standard)</option>
-          <option value="300">၅ မိနစ် (Detailed)</option>
-        </select>
-      </div>
-      <div>
-        <label>အသံအမြန်နှုန်း -</label>
-        <select id="voiceSpeed">
-          <option value="+0%">ပုံမှန် (1.0x)</option>
-          <option value="+15%" selected>အနည်းငယ်မြန် (1.15x)</option>
-          <option value="+30%">မြန် (1.30x)</option>
-        </select>
-      </div>
-    </div>
-    <div style="margin-top: 10px;">
-      <label>Voice Over အသံ ရွေးချယ်ပါ -</label>
+    <div>
+      <label>Voice Over -</label>
       <select id="voiceType">
-        <optgroup label="👨 အမျိုးသား အသံများ">
-          <option value="koko">ကိုကို - တည်ငြိမ်တဲ့ အသံ</option>
-          <option value="nyinyi" selected>ညီညီ - Recap ပြောသည့် အသံ</option>
-          <option value="maungmaung">မောင်မောင် - စိတ်ခံစားမှု အသံ</option>
-          <option value="u_paing">ဦးပိုင် - လူကြီး အသံ</option>
-        </optgroup>
-        <optgroup label="👩 အမျိုးသမီး အသံများ">
-          <option value="hlahla">လှလှ - တည်ငြိမ်တဲ့ အသံ</option>
-          <option value="myamya">မြမြ - Recap ပြောသည့် အသံ</option>
-          <option value="yuya">ယုယ - စိတ်ခံစားမှု အသံ</option>
-          <option value="daw_myalay">ဒေါ်မြလေး - လူကြီး အသံ</option>
-        </optgroup>
+        <option value="nyinyi" selected>ညီညီ (Recap သံ)</option>
+        <option value="koko">ကိုကို (တည်ငြိမ်)</option>
+        <option value="myamya">မြမြ (အမျိုးသမီး)</option>
       </select>
     </div>
   </div>
 
-  <!-- 5. Mood Style & Outro -->
-  <div class="form-group">
-    <div class="section-title">၅။ Tone & Mood Style</div>
-    <div class="grid-2">
-      <div>
-        <label>Mood -</label>
-        <select id="toneMood">
-          <option value="Dramatic & Suspenseful" selected>စိတ်လှုပ်ရှားဖွယ် (Dramatic)</option>
-          <option value="Emotional & Touchy">ဝမ်းနည်း/စိတ်ခံစားမှု (Emotional)</option>
-          <option value="Humorous & Funny">ဟာသ/ပေါ့ပါးသော (Comedy)</option>
-          <option value="Mysterious & Thriller">သဲထိတ်ရင်ဖို (Mystery)</option>
-        </select>
-      </div>
-      <div>
-        <label>Pacing -</label>
-        <select id="pacing">
-          <option value="Fast & Energetic" selected>သွက်လက်၍ စိတ်ဝင်စားဖွယ်</option>
-          <option value="Slow & Serious">လေးနက်၍ တည်ငြိမ်စွာ</option>
-        </select>
-      </div>
-    </div>
-    <div style="margin-top: 10px;">
-      <label class="checkbox-group">
-        <input type="checkbox" id="includeOutro" checked>
-        'History With Tarbin' Branding Outro ထည့်သွင်းမည်
+  <button onclick="generateRecap()">၁။ Recap Video အရင်ထုတ်မည်</button>
+
+  <div id="status"></div>
+  <video id="outputVideo" class="preview-box" controls></video>
+
+  <!-- STEP 2: BLUR & LOGO POST EDITOR -->
+  <div id="editorSection" class="editor-section">
+    <div class="section-title">STEP 2: BLUR & LOGO ပြင်ဆင်မည် (OPTIONAL)</div>
+
+    <!-- Blur Controls -->
+    <div class="panel">
+      <label style="display:flex; gap:8px; cursor:pointer;">
+        <input type="checkbox" id="enableBlur"> ဗီဒီယိုထဲမှ စာများကို ဝါးမည် (Text Blur)
       </label>
+      <div class="grid-2" style="margin-top: 8px;">
+        <select id="blurPosition">
+          <option value="bottom" selected>အောက်ခြေ စာတန်းများ</option>
+          <option value="top">အပေါ်ပိုင်း စာတန်းများ</option>
+        </select>
+        <select id="blurSize">
+          <option value="medium" selected>အသင့်အတင့် ဝါးမည်</option>
+          <option value="large">အပြည့်အဝ ဝါးမည်</option>
+        </select>
+      </div>
     </div>
-  </div>
 
-  <button onclick="submitVideo()">Recap Video စတင်ဖန်တီးမည်</button>
+    <!-- Logo Controls -->
+    <div class="panel">
+      <label>Brand Logo တင်ပါ (PNG) -</label>
+      <input type="file" id="logoInput" accept="image/*">
+      <div class="grid-2" style="margin-top: 8px;">
+        <select id="logoPosition">
+          <option value="top-right" selected>အပေါ် ညာဘက်</option>
+          <option value="top-left">အပေါ် ဘယ်ဘက်</option>
+          <option value="bottom-right">အောက် ညာဘက်</option>
+        </select>
+        <div>
+          <label>Logo Size: <span id="logoVal">80</span>px</label>
+          <input type="range" id="logoSize" min="40" max="180" value="80" oninput="document.getElementById('logoVal').innerText=this.value">
+        </div>
+      </div>
+    </div>
 
-  <div class="output-section">
-    <div id="status"></div>
-    <video id="outputVideo" class="preview-box" controls></video>
+    <button onclick="applyEdits()" style="background:#16a34a;">၂။ Blur & Logo ထည့်သွင်း၍ Render ပြုလုပ်မည်</button>
   </div>
 </div>
 
 <script>
-  function previewInputVideo(event) {
-    const file = event.target.files[0];
+  let rawRecapBlob = null;
+
+  function previewInputVideo(e) {
+    const file = e.target.files[0];
     const preview = document.getElementById('inputPreview');
-    if (file) {
-      preview.src = URL.createObjectURL(file);
-      preview.style.display = 'block';
-    }
+    if (file) { preview.src = URL.createObjectURL(file); preview.style.display = 'block'; }
   }
 
-  function toggleBlurOptions() {
-    const isChecked = document.getElementById('enableBlur').checked;
-    document.getElementById('blurOptions').style.display = isChecked ? 'block' : 'none';
-  }
-
-  async function submitVideo() {
+  async function generateRecap() {
     const fileInput = document.getElementById('videoInput');
-    const logoInput = document.getElementById('logoInput');
-    const statusDiv = document.getElementById('status');
-    const videoPlayer = document.getElementById('outputVideo');
+    const status = document.getElementById('status');
+    const player = document.getElementById('outputVideo');
+    const editor = document.getElementById('editorSection');
 
-    if (!fileInput.files[0]) {
-      alert("ကျေးဇူးပြု၍ ဗီဒီယိုဖိုင် ရွေးချယ်ပေးပါ။");
-      return;
-    }
-
-    const BACKEND_URL = "https://recap-with-tarbin.onrender.com/process-video"; 
+    if (!fileInput.files[0]) return alert("ဗီဒီယို ရွေးပေးပါ။");
 
     const formData = new FormData();
     formData.append("file", fileInput.files[0]);
-    if (logoInput.files[0]) {
-      formData.append("logo_file", logoInput.files[0]);
-    }
-
     formData.append("duration", document.getElementById('duration').value);
-    formData.append("voice_speed", document.getElementById('voiceSpeed').value);
     formData.append("voice_type", document.getElementById('voiceType').value);
-    formData.append("tone_mood", document.getElementById('toneMood').value);
-    formData.append("pacing", document.getElementById('pacing').value);
-    formData.append("include_outro", document.getElementById('includeOutro').checked);
-    
-    // Blur Settings
+
+    status.innerText = "Gemini AI မှ Recap ဖန်တီးနေပါသည်...";
+    player.style.display = "none";
+    editor.style.display = "none";
+
+    try {
+      const res = await fetch("https://recap-with-tarbin.onrender.com/process-recap", { method: "POST", body: formData });
+      if (!res.ok) throw new Error("Recap မထုတ်နိုင်ပါ။");
+
+      rawRecapBlob = await res.blob();
+      player.src = URL.createObjectURL(rawRecapBlob);
+      player.style.display = "block";
+      editor.style.display = "block"; // Show Step 2 Panel
+      status.innerText = "🎬 Recap ဗီဒီယို ထွက်လာပါပြီ။ အောက်တွင် စာဝါးခြင်း/Logo ထည့်ခြင်းများ ထပ်မံပြုလုပ်နိုင်ပါသည်။";
+    } catch (err) {
+      status.innerText = "အမှား - " + err.message;
+    }
+  }
+
+  async function applyEdits() {
+    if (!rawRecapBlob) return alert("Recap ဗီဒီယို မရှိသေးပါ။");
+
+    const status = document.getElementById('status');
+    const player = document.getElementById('outputVideo');
+    const logoInput = document.getElementById('logoInput');
+
+    const formData = new FormData();
+    formData.append("file", rawRecapBlob, "recap.mp4");
     formData.append("enable_blur", document.getElementById('enableBlur').checked);
     formData.append("blur_position", document.getElementById('blurPosition').value);
     formData.append("blur_size", document.getElementById('blurSize').value);
 
-    // Logo Settings
+    if (logoInput.files[0]) formData.append("logo_file", logoInput.files[0]);
     formData.append("logo_position", document.getElementById('logoPosition').value);
     formData.append("logo_size", document.getElementById('logoSize').value);
 
-    statusDiv.innerText = "ဗီဒီယိုနှင့် Watermark/Blur စနစ်များကို Render ပြုလုပ်နေပါသည် (ခဏစောင့်ပေးပါ)...";
-    videoPlayer.style.display = "none";
+    status.innerText = "Blur နှင့် Logo ကို Render ပြုလုပ်နေပါသည်...";
 
     try {
-      const response = await fetch(BACKEND_URL, {
-        method: "POST",
-        body: formData
-      });
+      const res = await fetch("https://recap-with-tarbin.onrender.com/apply-editor", { method: "POST", body: formData });
+      if (!res.ok) throw new Error("Editing အဆင်မပြေပါ။");
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || "Server Processing အဆင်မပြေပါ။");
-      }
-
-      const blob = await response.blob();
-      const videoURL = URL.createObjectURL(blob);
-      
-      videoPlayer.src = videoURL;
-      videoPlayer.style.display = "block";
-      statusDiv.innerText = "🎬 Studio Quality Recap ဖန်တီးမှု ပြီးစီးပါပြီ။ အောက်တွင် စစ်ဆေးကြည့်ရှုနိုင်ပါသည်။";
+      const editedBlob = await res.blob();
+      player.src = URL.createObjectURL(editedBlob);
+      status.innerText = "✅ Edit လုပ်ပြီးသော Final Video ရရှိပါပြီ။";
     } catch (err) {
-      statusDiv.innerText = "အမှားဖြစ်ပေါ်နေပါသည် - " + err.message;
+      status.innerText = "အမှား - " + err.message;
     }
   }
 </script>
