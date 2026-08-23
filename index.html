@@ -5,38 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recap with Tarbin Studio</title>
   <style>
-    :root {
-      --bg: #0b0f19; --card: #151c2c; --accent: #0284c7;
-      --accent-hover: #0369a1; --text: #f8fafc; --text-sub: #94a3b8; --border: #1e293b;
-    }
+    :root { --bg: #0b0f19; --card: #151c2c; --accent: #0284c7; --text: #f8fafc; --border: #1e293b; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; }
-    .studio { width: 100%; max-width: 680px; background: var(--card); border-radius: 16px; padding: 24px; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+    body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; }
+    .studio { width: 100%; max-width: 680px; background: var(--card); border-radius: 16px; padding: 24px; border: 1px solid var(--border); }
     .header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
     .header h1 { font-size: 22px; color: #38bdf8; }
-    
-    /* Navigation Tabs */
-    .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-    .tab-btn { flex: 1; padding: 12px; background: #0f172a; border: 1px solid var(--border); color: var(--text-sub); border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-    .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-
+    .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+    .tab-btn { flex: 1; padding: 12px; background: #0f172a; border: 1px solid var(--border); color: #94a3b8; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    .tab-btn.active { background: var(--accent); color: white; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
-
-    .section-title { font-size: 13px; font-weight: 600; color: #38bdf8; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
     .form-group { margin-bottom: 16px; }
     label { display: block; font-size: 13px; margin-bottom: 6px; }
-    input[type="file"], select, input[type="range"] { width: 100%; padding: 10px; border-radius: 8px; background: #0f172a; border: 1px solid var(--border); color: #fff; font-size: 14px; outline: none; }
+    input[type="file"], select, input[type="range"] { width: 100%; padding: 10px; border-radius: 8px; background: #0f172a; border: 1px solid var(--border); color: #fff; font-size: 14px; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .preview-box { width: 100%; max-height: 240px; background: #000; border-radius: 8px; margin-top: 10px; display: none; }
+    .preview-box { width: 100%; max-height: 250px; background: #000; border-radius: 8px; margin-top: 10px; display: none; }
     .panel { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid var(--border); margin-top: 10px; }
-    .checkbox-group { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
-    .checkbox-group input { width: auto; }
-    
-    button.action-btn { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 12px; }
-    button.action-btn:hover { background: var(--accent-hover); }
-    
-    .status-msg { margin-top: 12px; font-size: 14px; text-align: center; color: #38bdf8; word-break: break-word; }
+    button.btn-main { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    .status-msg { margin-top: 12px; font-size: 14px; text-align: center; color: #38bdf8; }
   </style>
 </head>
 <body>
@@ -44,19 +31,17 @@
 <div class="studio">
   <div class="header">
     <h1>Recap with Tarbin Studio</h1>
-    <p>AI Video Recap & Post-Processing Editor Engine</p>
+    <p>AI Video Recap & Editor Engine</p>
   </div>
 
-  <!-- Tab Navigation Header -->
   <div class="nav-tabs">
     <button class="tab-btn active" onclick="switchTab('recapTab', this)">၁။ AI Video Recap</button>
     <button class="tab-btn" onclick="switchTab('editorTab', this)">၂။ Blur & Logo Editor</button>
   </div>
 
-  <!-- TAB 1: AI VIDEO RECAP STUDIO -->
+  <!-- TAB 1: RECAP CREATOR -->
   <div id="recapTab" class="tab-content active">
     <div class="form-group">
-      <div class="section-title">၁။ Video Source</div>
       <label>မူရင်း ဗီဒီယိုဖိုင် တင်ပါ -</label>
       <input type="file" id="recapVideoInput" accept="video/*" onchange="previewVideo(event, 'recapPreview')">
       <video id="recapPreview" class="preview-box" controls></video>
@@ -103,82 +88,64 @@
       <div>
         <label>Tone & Mood Style -</label>
         <select id="toneMood">
-          <option value="Dramatic & Suspenseful" selected>စိတ်လှုပ်ရှားဖွယ် (Dramatic)</option>
-          <option value="Emotional & Touchy">ဝမ်းနည်း/စိတ်ခံစားမှု (Emotional)</option>
-          <option value="Humorous & Funny">ဟာသ/ပေါ့ပါးသော (Comedy)</option>
-          <option value="Mysterious & Thriller">သဲထိတ်ရင်ဖို (Mystery)</option>
+          <option value="Dramatic" selected>စိတ်လှုပ်ရှားဖွယ်</option>
+          <option value="Emotional">ဝမ်းနည်း/စိတ်ခံစားမှု</option>
+          <option value="Funny">ဟာသ/ပေါ့ပါးသော</option>
         </select>
       </div>
       <div>
         <label>Pacing -</label>
         <select id="pacing">
-          <option value="Fast & Energetic" selected>သွက်လက်၍ စိတ်ဝင်စားဖွယ်</option>
-          <option value="Slow & Serious">လေးနက်၍ တည်ငြိမ်စွာ</option>
+          <option value="Fast" selected>သွက်လက်၍ စိတ်ဝင်စားဖွယ်</option>
+          <option value="Slow">လေးနက်၍ တည်ငြိမ်စွာ</option>
         </select>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="checkbox-group">
-        <input type="checkbox" id="includeOutro" checked>
-        'History With Tarbin' Branding Outro ထည့်သွင်းမည်
+      <label style="display:flex; gap:8px;">
+        <input type="checkbox" id="includeOutro" checked> 'History With Tarbin' Branding Outro ထည့်သွင်းမည်
       </label>
     </div>
 
-    <button class="action-btn" onclick="startRecapProcess()">Recap Video စတင်ဖန်တီးမည်</button>
+    <button class="btn-main" onclick="startRecap()">Recap Video စတင်ဖန်တီးမည်</button>
 
     <div id="recapStatus" class="status-msg"></div>
     <video id="recapOutputVideo" class="preview-box" controls></video>
   </div>
 
-  <!-- TAB 2: STANDALONE BLUR & LOGO EDITOR -->
+  <!-- TAB 2: EDITOR -->
   <div id="editorTab" class="tab-content">
     <div class="form-group">
-      <div class="section-title">၁။ Edit ပြုလုပ်မည့် Video File</div>
-      <label>ဗီဒီယိုဖိုင် တင်ပါ -</label>
+      <label>Edit မည့် ဗီဒီယိုဖိုင် တင်ပါ -</label>
       <input type="file" id="editorVideoInput" accept="video/*" onchange="previewVideo(event, 'editorPreview')">
       <video id="editorPreview" class="preview-box" controls></video>
     </div>
 
     <div class="panel">
-      <div class="section-title">၂။ Text Blur Controls</div>
-      <label class="checkbox-group">
+      <label style="display:flex; gap:8px;">
         <input type="checkbox" id="enableBlur"> စာများကို ဝါးမည် (Text Blur)
       </label>
       <div class="grid-2" style="margin-top: 8px;">
-        <div>
-          <label>နေရာ -</label>
-          <select id="blurPosition">
-            <option value="bottom" selected>အောက်ခြေ</option>
-            <option value="top">အပေါ်ပိုင်း</option>
-            <option value="center">အလယ်</option>
-          </select>
-        </div>
-        <div>
-          <label>ပမာဏ -</label>
-          <select id="blurSize">
-            <option value="small">Light</option>
-            <option value="medium" selected>Medium</option>
-            <option value="large">Strong</option>
-          </select>
-        </div>
+        <select id="blurPosition">
+          <option value="bottom" selected>အောက်ခြေ</option>
+          <option value="top">အပေါ်ပိုင်း</option>
+        </select>
+        <select id="blurSize">
+          <option value="medium" selected>Medium</option>
+          <option value="large">Strong</option>
+        </select>
       </div>
     </div>
 
     <div class="panel">
-      <div class="section-title">၃။ Logo Watermark Controls</div>
-      <label>Logo ပုံ တင်ပါ -</label>
+      <label>Logo တင်ပါ -</label>
       <input type="file" id="logoInput" accept="image/*">
       <div class="grid-2" style="margin-top: 8px;">
-        <div>
-          <label>တည်နေရာ -</label>
-          <select id="logoPosition">
-            <option value="top-right" selected>အပေါ် ညာ</option>
-            <option value="top-left">အပေါ် ဘယ်</option>
-            <option value="bottom-right">အောက် ညာ</option>
-            <option value="bottom-left">အောက် ဘယ်</option>
-          </select>
-        </div>
+        <select id="logoPosition">
+          <option value="top-right" selected>အပေါ် ညာ</option>
+          <option value="top-left">အပေါ် ဘယ်</option>
+        </select>
         <div>
           <label>Size: <span id="logoVal">80</span>px</label>
           <input type="range" id="logoSize" min="40" max="200" value="80" oninput="document.getElementById('logoVal').innerText=this.value">
@@ -186,7 +153,7 @@
       </div>
     </div>
 
-    <button class="action-btn" style="background:#16a34a;" onclick="startEditorProcess()">Blur & Logo Render မည်</button>
+    <button class="btn-main" style="background:#16a34a;" onclick="startEditor()">Blur & Logo Render မည်</button>
 
     <div id="editorStatus" class="status-msg"></div>
     <video id="editorOutputVideo" class="preview-box" controls></video>
@@ -199,21 +166,17 @@
   function switchTab(tabId, btn) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-    
     document.getElementById(tabId).classList.add('active');
     btn.classList.add('active');
   }
 
-  function previewVideo(event, previewId) {
-    const file = event.target.files[0];
-    const preview = document.getElementById(previewId);
-    if (file) {
-      preview.src = URL.createObjectURL(file);
-      preview.style.display = 'block';
-    }
+  function previewVideo(e, id) {
+    const file = e.target.files[0];
+    const preview = document.getElementById(id);
+    if (file) { preview.src = URL.createObjectURL(file); preview.style.display = 'block'; }
   }
 
-  async function startRecapProcess() {
+  async function startRecap() {
     const fileInput = document.getElementById('recapVideoInput');
     const status = document.getElementById('recapStatus');
     const player = document.getElementById('recapOutputVideo');
@@ -229,12 +192,12 @@
     formData.append("pacing", document.getElementById('pacing').value);
     formData.append("include_outro", document.getElementById('includeOutro').checked);
 
-    status.innerText = "Gemini AI မှ Recap ဖန်တီးနေပါသည် (ခဏစောင့်ပေးပါ)...";
+    status.innerText = "Gemini AI မှ Recap ဖန်တီးနေပါသည်...";
     player.style.display = "none";
 
     try {
       const res = await fetch(`${BACKEND_URL}/process-recap`, { method: "POST", body: formData });
-      if (!res.ok) throw new Error("Recap မထုတ်နိုင်ပါ။ Server တွင် အမှားဖြစ်နေပါသည်။");
+      if (!res.ok) throw new Error("Recap မထုတ်နိုင်ပါ။ Render deploy ပြီးစီးအောင် စောင့်ပါ။");
 
       const blob = await res.blob();
       player.src = URL.createObjectURL(blob);
@@ -245,7 +208,7 @@
     }
   }
 
-  async function startEditorProcess() {
+  async function startEditor() {
     const fileInput = document.getElementById('editorVideoInput');
     const logoInput = document.getElementById('logoInput');
     const status = document.getElementById('editorStatus');
