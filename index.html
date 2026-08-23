@@ -5,63 +5,235 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recap with Tarbin - AI Video Studio</title>
   <style>
-    * { box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 20px; background: #0f172a; color: #f8fafc; max-width: 520px; margin: auto; }
-    .card { background: #1e293b; padding: 24px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #334155; }
-    h2 { color: #38bdf8; text-align: center; margin-top: 0; margin-bottom: 20px; font-size: 22px; }
-    .form-group { margin-bottom: 18px; }
-    label { font-size: 14px; font-weight: 600; display: block; margin-bottom: 8px; color: #cbd5e1; }
-    input, select { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 14px; outline: none; }
-    input:focus, select:focus { border-color: #38bdf8; }
-    button { width: 100%; background: #0284c7; color: white; font-size: 16px; font-weight: bold; border: none; padding: 12px; border-radius: 6px; cursor: pointer; transition: 0.2s; margin-top: 10px; }
-    button:hover { background: #0369a1; }
-    #status { margin-top: 15px; font-size: 14px; text-align: center; color: #38bdf8; font-weight: 500; word-break: break-word; }
-    video { width: 100%; margin-top: 20px; border-radius: 8px; display: none; border: 1px solid #475569; }
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: #151c2c;
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --border-color: #1e293b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .studio-container {
+      width: 100%;
+      max-width: 650px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 28px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 16px;
+    }
+    .header h1 {
+      font-size: 24px;
+      color: #38bdf8;
+      letter-spacing: 0.5px;
+    }
+    .header p {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #38bdf8;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+    .form-group { margin-bottom: 20px; }
+    label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+    input[type="file"], select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+    select:focus { border-color: var(--accent); }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .preview-box {
+      width: 100%;
+      max-height: 250px;
+      background: #000;
+      border-radius: 8px;
+      margin-top: 10px;
+      display: none;
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .checkbox-group input { width: auto; }
+    button {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+      margin-top: 10px;
+    }
+    button:hover { background: var(--accent-hover); }
+    #status {
+      margin-top: 16px;
+      font-size: 14px;
+      text-align: center;
+      color: #38bdf8;
+      word-break: break-word;
+      line-height: 1.4;
+    }
+    .output-section {
+      margin-top: 24px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 20px;
+    }
   </style>
 </head>
 <body>
 
-<div class="card">
-  <h2>Recap with Tarbin</h2>
-  
-  <div class="form-group">
-    <label>၁။ မူရင်းဗီဒီယို ဖိုင်ရွေးပါ -</label>
-    <input type="file" id="videoInput" accept="video/*">
+<div class="studio-container">
+  <div class="header">
+    <h1>Recap with Tarbin Studio</h1>
+    <p>AI Automated Movie Recap & Voice Over Generator</p>
   </div>
 
+  <!-- 1. Input Video Section with Preview -->
   <div class="form-group">
-    <label>၂။ Recap ကြာချိန် ရွေးချယ်ပါ -</label>
-    <select id="duration">
-      <option value="60">၁ မိနစ်စာ (Shorts/Reels)</option>
-      <option value="180" selected>၃ မိနစ်စာ Recap</option>
-      <option value="300">၅ မိနစ်စာ Recap</option>
-    </select>
+    <div class="section-title">၁။ Video Source</div>
+    <label>မူရင်း ဗီဒီယိုဖိုင် တင်ပါ -</label>
+    <input type="file" id="videoInput" accept="video/*" onchange="previewInputVideo(event)">
+    <video id="inputPreview" class="preview-box" controls></video>
   </div>
 
+  <!-- 2. Duration & Speed -->
   <div class="form-group">
-    <label>၃။ Voice Over အသံ ရွေးချယ်ပါ -</label>
+    <div class="section-title">၂။ Timing & Pacing</div>
+    <div class="grid-2">
+      <div>
+        <label>Recap ကြာချိန် -</label>
+        <select id="duration">
+          <option value="60">၁ မိနစ် (Shorts/Reels)</option>
+          <option value="180" selected>၃ မိနစ် (Standard)</option>
+          <option value="300">၅ မိနစ် (Detailed)</option>
+        </select>
+      </div>
+      <div>
+        <label>အသံအမြန်နှုန်း -</label>
+        <select id="voiceSpeed">
+          <option value="+0%">ပုံမှန် (1.0x)</option>
+          <option value="+15%" selected>အနည်းငယ်မြန် (1.15x)</option>
+          <option value="+30%">မြန် (1.30x)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Voice Character Settings -->
+  <div class="form-group">
+    <div class="section-title">၃။ Voice Characters</div>
+    <label>Voice Over အသံအမျိုးအစား ရွေးပါ -</label>
     <select id="voiceType">
-      <option value="my-MM-ThihaNeural">မြန်မာ - အမျိုးသားသံ (Thiha)</option>
-      <option value="my-MM-NilarNeural">မြန်မာ - အမျိုးသမီးသံ (Nilar)</option>
+      <optgroup label="👨 အမျိုးသား အသံများ">
+        <option value="koko">ကိုကို - တည်ငြိမ်တဲ့ အသံ</option>
+        <option value="nyinyi" selected>ညီညီ - Recap ပြောသည့် အသံ</option>
+        <option value="maungmaung">မောင်မောင် - စိတ်ခံစားမှု အသံ</option>
+        <option value="u_paing">ဦးပိုင် - လူကြီး အသံ</option>
+      </optgroup>
+      <optgroup label="👩 အမျိုးသမီး အသံများ">
+        <option value="hlahla">လှလှ - တည်ငြိမ်တဲ့ အသံ</option>
+        <option value="myamya">မြမြ - Recap ပြောသည့် အသံ</option>
+        <option value="yuya">ယုယ - စိတ်ခံစားမှု အသံ</option>
+        <option value="daw_myalay">ဒေါ်မြလေး - လူကြီး အသံ</option>
+      </optgroup>
     </select>
   </div>
 
+  <!-- 4. Tone & Mood Functionality -->
   <div class="form-group">
-    <label>၄။ အသံအမြန်နှုန်း (Voice Speed) -</label>
-    <select id="voiceSpeed">
-      <option value="+0%">ပုံမှန် အမြန်နှုန်း (1.0x)</option>
-      <option value="+15%" selected>အနည်းငယ်မြန် (1.15x - အကြံပြုထားသည်)</option>
-      <option value="+30%">မြန် (1.30x)</option>
-    </select>
+    <div class="section-title">၄။ Tone & Mood Style</div>
+    <div class="grid-2">
+      <div>
+        <label>ဇာတ်လမ်း ပုံစံ (Mood) -</label>
+        <select id="toneMood">
+          <option value="Dramatic & Suspenseful" selected>စိတ်လှုပ်ရှားဖွယ် (Dramatic)</option>
+          <option value="Emotional & Touchy">ဝမ်းနည်း/စိတ်ခံစားမှု (Emotional)</option>
+          <option value="Humorous & Funny">ဟာသ/ပေါ့ပါးသော (Comedy)</option>
+          <option value="Mysterious & Thriller">သဲထိတ်ရင်ဖို (Mystery)</option>
+          <option value="Documentary & Informative">သမိုင်း/မှတ်တမ်း (Documentary)</option>
+        </select>
+      </div>
+      <div>
+        <label>ပြောဟန် စေတနာ (Pacing) -</label>
+        <select id="pacing">
+          <option value="Fast & Energetic" selected>သွက်လက်၍ စိတ်ဝင်စားဖွယ်</option>
+          <option value="Slow & Serious">လေးနက်၍ တည်ငြိမ်စွာ</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Branding Option -->
+  <div class="form-group">
+    <label class="checkbox-group">
+      <input type="checkbox" id="includeOutro" checked>
+      'History With Tarbin' Branding Outro ထည့်သွင်းမည်
+    </label>
   </div>
 
   <button onclick="submitVideo()">Recap Video စတင်ဖန်တီးမည်</button>
 
-  <div id="status"></div>
-  <video id="outputVideo" controls></video>
+  <!-- Output & Player -->
+  <div class="output-section">
+    <div id="status"></div>
+    <video id="outputVideo" class="preview-box" controls></video>
+  </div>
 </div>
 
 <script>
+  function previewInputVideo(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('inputPreview');
+    if (file) {
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = 'block';
+    }
+  }
+
   async function submitVideo() {
     const fileInput = document.getElementById('videoInput');
     const statusDiv = document.getElementById('status');
@@ -72,7 +244,6 @@
       return;
     }
 
-    // Render Backend Service URL
     const BACKEND_URL = "https://recap-with-tarbin.onrender.com/process-video"; 
 
     const formData = new FormData();
@@ -80,49 +251,11 @@
     formData.append("duration", document.getElementById('duration').value);
     formData.append("voice_speed", document.getElementById('voiceSpeed').value);
     formData.append("voice_type", document.getElementById('voiceType').value);
+    formData.append("tone_mood", document.getElementById('toneMood').value);
+    formData.append("pacing", document.getElementById('pacing').value);
+    formData.append("include_outro", document.getElementById('includeOutro').checked);
 
-    statusDiv.innerText = "ဗီဒီယိုကို AI မှ စစ်ဆေးဖြတ်တောက်ပြီး အသံသွင်းပေးနေပါသည် (ခဏစောင့်ပေးပါ)...";
-    videoPlayer.style.display = "none";
-
-    try {
-      const response = await fetch(BACKEND_URL, {
-        method: "POST",
-        body: formData
-      });
-
-      if (!response.ok) {
-        throw new Error("Server လုပ်ဆောင်ချက် အဆင်မပြေပါ။");
-      }
-
-      const blob = await response.blob();
-      const videoURL = URL.createObjectURL(blob);
-      
-      videoPlayer.src = videoURL;
-      videoPlayer.style.display = "block";
-      statusDiv.innerText = "ဖန်တီးမှု ပြီးစီးပါပြီ။ အောက်တွင် ကြည့်ရှုနိုင်ပါသည်။";
-    } catch (err) {
-      statusDiv.innerText = "အမှားတစ်ခု ဖြစ်ပေါ်နေပါသည် - " + err.message;
-    }
-  }
-    async function submitVideo() {
-    const fileInput = document.getElementById('videoInput');
-    const statusDiv = document.getElementById('status');
-    const videoPlayer = document.getElementById('outputVideo');
-
-    if (!fileInput.files[0]) {
-      alert("ကျေးဇူးပြု၍ ဗီဒီယိုဖိုင် ရွေးချယ်ပေးပါ။");
-      return;
-    }
-
-    const BACKEND_URL = "https://recap-with-tarbin.onrender.com/process-video"; 
-
-    const formData = new FormData();
-    formData.append("file", fileInput.files[0]);
-    formData.append("duration", document.getElementById('duration').value);
-    formData.append("voice_speed", document.getElementById('voiceSpeed').value);
-    formData.append("voice_type", document.getElementById('voiceType').value);
-
-    statusDiv.innerText = "ဗီဒီယိုကို AI မှ စစ်ဆေးဖြတ်တောက်ပြီး အသံသွင်းပေးနေပါသည် (ခဏစောင့်ပေးပါ)...";
+    statusDiv.innerText = "ဗီဒီယိုကို AI မှ စစ်ဆေးနေပါသည် (Gemini ACTIVE ဖြစ်ရန် စောင့်ဆိုင်းနေပါသည်)...";
     videoPlayer.style.display = "none";
 
     try {
@@ -133,7 +266,7 @@
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.detail || "Server Processing Error ဖြစ်ပွားပါသည်။");
+        throw new Error(errorData.detail || "Server Processing အဆင်မပြေပါ။");
       }
 
       const blob = await response.blob();
@@ -141,15 +274,12 @@
       
       videoPlayer.src = videoURL;
       videoPlayer.style.display = "block";
-      statusDiv.innerText = "ဖန်တီးမှု ပြီးစီးပါပြီ။ အောက်တွင် ကြည့်ရှုနိုင်ပါသည်။";
+      statusDiv.innerText = "🎬 Recap ဖန်တီးမှု ပြီးစီးပါပြီ။ အောက်တွင် အဆင်သင့် ကြည့်ရှုနိုင်ပါသည်။";
     } catch (err) {
-      statusDiv.innerText = "အမှားဖြစ်ပေါ်နေပါသည်။ - " + err.message;
+      statusDiv.innerText = "အမှားဖြစ်ပေါ်နေပါသည် - " + err.message;
     }
   }
-
 </script>
-  
 
 </body>
 </html>
-
