@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recap with Tarbin - AI Video Studio</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 20px; background: #0f172a; color: #f8fafc; max-width: 520px; margin: auto; }
+    .card { background: #1e293b; padding: 24px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #334155; }
+    h2 { color: #38bdf8; text-align: center; margin-top: 0; margin-bottom: 20px; font-size: 22px; }
+    .form-group { margin-bottom: 18px; }
+    label { font-size: 14px; font-weight: 600; display: block; margin-bottom: 8px; color: #cbd5e1; }
+    input, select { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 14px; outline: none; }
+    input:focus, select:focus { border-color: #38bdf8; }
+    button { width: 100%; background: #0284c7; color: white; font-size: 16px; font-weight: bold; border: none; padding: 12px; border-radius: 6px; cursor: pointer; transition: 0.2s; margin-top: 10px; }
+    button:hover { background: #0369a1; }
+    #status { margin-top: 15px; font-size: 14px; text-align: center; color: #38bdf8; font-weight: 500; word-break: break-word; }
+    video { width: 100%; margin-top: 20px; border-radius: 8px; display: none; border: 1px solid #475569; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Recap with Tarbin</h2>
+  
+  <div class="form-group">
+    <label>၁။ မူရင်းဗီဒီယို ဖိုင်ရွေးပါ -</label>
+    <input type="file" id="videoInput" accept="video/*">
+  </div>
+
+  <div class="form-group">
+    <label>၂။ Recap ကြာချိန် ရွေးချယ်ပါ -</label>
+    <select id="duration">
+      <option value="60">၁ မိနစ်စာ (Shorts/Reels)</option>
+      <option value="180" selected>၃ မိနစ်စာ Recap</option>
+      <option value="300">၅ မိနစ်စာ Recap</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>၃။ Voice Over အသံ ရွေးချယ်ပါ -</label>
+    <select id="voiceType">
+      <option value="my-MM-ThihaNeural">မြန်မာ - အမျိုးသားသံ (Thiha)</option>
+      <option value="my-MM-NilarNeural">မြန်မာ - အမျိုးသမီးသံ (Nilar)</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>၄။ အသံအမြန်နှုန်း (Voice Speed) -</label>
+    <select id="voiceSpeed">
+      <option value="+0%">ပုံမှန် အမြန်နှုန်း (1.0x)</option>
+      <option value="+15%" selected>အနည်းငယ်မြန် (1.15x - အကြံပြုထားသည်)</option>
+      <option value="+30%">မြန် (1.30x)</option>
+    </select>
+  </div>
+
+  <button onclick="submitVideo()">Recap Video စတင်ဖန်တီးမည်</button>
+
+  <div id="status"></div>
+  <video id="outputVideo" controls></video>
+</div>
+
+<script>
+  async function submitVideo() {
+    const fileInput = document.getElementById('videoInput');
+    const statusDiv = document.getElementById('status');
+    const videoPlayer = document.getElementById('outputVideo');
+
+    if (!fileInput.files[0]) {
+      alert("ကျေးဇူးပြု၍ ဗီဒီယိုဖိုင် ရွေးချယ်ပေးပါ။");
+      return;
+    }
+
+    // Render Backend Service URL
+    const BACKEND_URL = "https://recap-with-tarbin.onrender.com/process-video"; 
+
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+    formData.append("duration", document.getElementById('duration').value);
+    formData.append("voice_speed", document.getElementById('voiceSpeed').value);
+    formData.append("voice_type", document.getElementById('voiceType').value);
+
+    statusDiv.innerText = "ဗီဒီယိုကို AI မှ စစ်ဆေးဖြတ်တောက်ပြီး အသံသွင်းပေးနေပါသည် (ခဏစောင့်ပေးပါ)...";
+    videoPlayer.style.display = "none";
+
+    try {
+      const response = await fetch(BACKEND_URL, {
+        method: "POST",
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error("Server လုပ်ဆောင်ချက် အဆင်မပြေပါ။");
+      }
+
+      const blob = await response.blob();
+      const videoURL = URL.createObjectURL(blob);
+      
+      videoPlayer.src = videoURL;
+      videoPlayer.style.display = "block";
+      statusDiv.innerText = "ဖန်တီးမှု ပြီးစီးပါပြီ။ အောက်တွင် ကြည့်ရှုနိုင်ပါသည်။";
+    } catch (err) {
+      statusDiv.innerText = "အမှားတစ်ခု ဖြစ်ပေါ်နေပါသည် - " + err.message;
+    }
+  }
+</script>
+
+</body>
+</html>
+
